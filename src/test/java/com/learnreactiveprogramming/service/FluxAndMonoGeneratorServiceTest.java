@@ -141,5 +141,23 @@ public class FluxAndMonoGeneratorServiceTest {
                 .verifyComplete();
     }
 
+    @Test
+    void explore_merge() {
+        Flux<String> result = fluxAndMonoGeneratorService.explore_merge();
+
+        StepVerifier.create(result)
+                .expectNext("A", "D", "B", "E", "C", "F")
+                .verifyComplete();
+    }
+
+    @Test
+    void explore_mergeWith() {
+        Flux<String> result = fluxAndMonoGeneratorService.explore_mergeWith();
+
+        StepVerifier.create(result)
+                .expectNext("A", "D", "B", "E", "C", "F")
+                .verifyComplete();
+    }
+
 
 }

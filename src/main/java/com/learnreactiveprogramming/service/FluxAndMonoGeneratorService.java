@@ -173,4 +173,18 @@ public class FluxAndMonoGeneratorService {
 
         return aMono.concatWith(bMono).log();
     }
+
+    public Flux<String> explore_merge() {
+        Flux<String> abcFlux = Flux.just("A", "B", "C").delayElements(Duration.ofMillis(100));
+        Flux<String> defFlux = Flux.just("D", "E", "F").delayElements(Duration.ofMillis(125));
+
+        return Flux.merge(abcFlux, defFlux).log();
+    }
+
+    public Flux<String> explore_mergeWith() {
+        Flux<String> abcFlux = Flux.just("A", "B", "C").delayElements(Duration.ofMillis(100));
+        Flux<String> defFlux = Flux.just("D", "E", "F").delayElements(Duration.ofMillis(125));
+
+        return abcFlux.mergeWith(defFlux).log();
+    }
 }

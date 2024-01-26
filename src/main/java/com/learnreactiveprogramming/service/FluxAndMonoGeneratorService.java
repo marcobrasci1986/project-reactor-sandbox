@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public class FluxAndMonoGeneratorService {
 
@@ -30,8 +31,8 @@ public class FluxAndMonoGeneratorService {
 
     public Flux<String> namesFluxMap(int stringLength) {
         return Flux.fromIterable(List.of("alex", "ben", "chloe"))
-                .map(e -> "%s-%s".formatted(e.length(), e.toUpperCase()))
                 .filter(e -> e.length() > stringLength)
+                .map(e -> "%s-%s".formatted(e.length(), e.toUpperCase()))
                 .log();
     }
 
@@ -55,7 +56,7 @@ public class FluxAndMonoGeneratorService {
 
     public Flux<String> namesFluxTransformSwitchIfEmpty(int stringLength) {
 
-        Function<Flux<String>, Flux<String>> filterMap = name -> name
+        UnaryOperator<Flux<String>> filterMap = name -> name
                 .map(String::toUpperCase)
                 .filter(e -> e.length() > stringLength)
                 .flatMap(this::splitString);

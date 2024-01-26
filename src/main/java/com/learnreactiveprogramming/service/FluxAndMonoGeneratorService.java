@@ -38,6 +38,7 @@ public class FluxAndMonoGeneratorService {
 
     /**
      * Use transform to group functions. Reusable blocks
+     *
      * @param stringLength
      * @return
      */
@@ -149,5 +150,27 @@ public class FluxAndMonoGeneratorService {
 
     public Mono<String> namesMono() {
         return Mono.just("alex").log();
+    }
+
+
+    public Flux<String> explore_concat() {
+        Flux<String> abcFlux = Flux.just("A", "B", "C");
+        Flux<String> defFlux = Flux.just("D", "E", "F");
+
+        return Flux.concat(abcFlux, defFlux).log();
+    }
+
+    public Flux<String> explore_concatWith() {
+        Flux<String> abcFlux = Flux.just("A", "B", "C");
+        Flux<String> defFlux = Flux.just("D", "E", "F");
+
+        return abcFlux.concatWith(defFlux).log();
+    }
+
+    public Flux<String> explore_concatWith_mono() {
+        var aMono = Mono.just("A" );
+        var bMono = Mono.just("B");
+
+        return aMono.concatWith(bMono).log();
     }
 }

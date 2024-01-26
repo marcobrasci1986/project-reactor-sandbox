@@ -17,7 +17,7 @@ public class FluxAndMonoGeneratorServiceTest {
         Flux<String> names = fluxAndMonoGeneratorService.namesFlux();
 
         StepVerifier.create(names)
-//                .expectNext("alex", "ben", "chloe")
+                //                .expectNext("alex", "ben", "chloe")
                 .expectNextCount(3)
                 .verifyComplete();
 
@@ -37,7 +37,7 @@ public class FluxAndMonoGeneratorServiceTest {
         Flux<String> names = fluxAndMonoGeneratorService.namesFluxTransform(3);
 
         StepVerifier.create(names)
-                .expectNext("A","L","E","X","C", "H", "L", "O", "E")
+                .expectNext("A", "L", "E", "X", "C", "H", "L", "O", "E")
                 .verifyComplete();
     }
 
@@ -73,7 +73,7 @@ public class FluxAndMonoGeneratorServiceTest {
         Flux<String> names = fluxAndMonoGeneratorService.namesFluxFlatmap(3);
 
         StepVerifier.create(names)
-                .expectNext("A", "L", "E","X", "C", "H", "L", "O", "E")
+                .expectNext("A", "L", "E", "X", "C", "H", "L", "O", "E")
                 .verifyComplete();
     }
 
@@ -82,7 +82,7 @@ public class FluxAndMonoGeneratorServiceTest {
         Flux<String> names = fluxAndMonoGeneratorService.namesFluxFlatmapAsync(3);
 
         StepVerifier.create(names)
-//                .expectNext("A", "L", "E","X", "C", "H", "L", "O", "E")
+                //                .expectNext("A", "L", "E","X", "C", "H", "L", "O", "E")
                 .expectNextCount(9)
                 .verifyComplete();
     }
@@ -92,7 +92,7 @@ public class FluxAndMonoGeneratorServiceTest {
         Flux<String> names = fluxAndMonoGeneratorService.namesFluxConcatMap(3);
 
         StepVerifier.create(names)
-                .expectNext("A", "L", "E","X", "C", "H", "L", "O", "E")
+                .expectNext("A", "L", "E", "X", "C", "H", "L", "O", "E")
                 .verifyComplete();
     }
 
@@ -101,7 +101,7 @@ public class FluxAndMonoGeneratorServiceTest {
         Mono<List<String>> listMono = fluxAndMonoGeneratorService.namesMonoFlatmap(3);
 
         StepVerifier.create(listMono)
-                .expectNext(List.of("A", "L", "E","X"))
+                .expectNext(List.of("A", "L", "E", "X"))
                 .verifyComplete();
     }
 
@@ -110,7 +110,36 @@ public class FluxAndMonoGeneratorServiceTest {
         Flux<String> result = fluxAndMonoGeneratorService.namesMonoFlatmapMany(3);
 
         StepVerifier.create(result)
-                .expectNext("A", "L", "E","X")
+                .expectNext("A", "L", "E", "X")
                 .verifyComplete();
     }
+
+    @Test
+    void explore_concat() {
+        Flux<String> result = fluxAndMonoGeneratorService.explore_concat();
+
+        StepVerifier.create(result)
+                .expectNext("A", "B", "C", "D", "E", "F")
+                .verifyComplete();
+    }
+
+    @Test
+    void explore_concatWith() {
+        Flux<String> result = fluxAndMonoGeneratorService.explore_concatWith();
+
+        StepVerifier.create(result)
+                .expectNext("A", "B", "C", "D", "E", "F")
+                .verifyComplete();
+    }
+
+    @Test
+    void explore_concatWith_mono() {
+        Flux<String> result = fluxAndMonoGeneratorService.explore_concatWith_mono();
+
+        StepVerifier.create(result)
+                .expectNext("A", "B")
+                .verifyComplete();
+    }
+
+
 }

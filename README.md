@@ -42,3 +42,29 @@ return Flux.just(payload.getOproepIds())
         .flatMap(super::save);
         
 ```
+
+## doOnNext
+
+Add behavior triggered when the Mono emits a data successfully.
+
+```
+Mono.just(saga.getPayload())
+                .flatMap(payload -> {
+                    if (payload.getInput().getBestanden() != null) {
+                        return argusBestandService.bevestigUploads(payload.getInput().getBestanden(), payload.getActor().getVoId())
+                                .publishOn(getScheduler());
+                    } else {
+                        return Mono.just(Collections.<ArgusBestandInfoMetThumbnails>emptyList());
+                    }
+                })
+                .doOnNext(bestanden -> {
+                    // bestanden = data when the Mono emits a data successfully
+                    saga.uploadsBevestigd(bestanden);
+                }) 
+                
+                
+public void uploadsBevestigd(List<ArgusBestandInfoMetThumbnails> argusBestandInfos) {
+    getPayload().setArgusBestandInfos(argusBestandInfos);
+    setStatus("UPLOADS_BEVESTIGD");
+}
+```
